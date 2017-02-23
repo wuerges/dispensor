@@ -1,7 +1,7 @@
 class Group:
-    def __init__(self, me):
-        self.me = me
-        self.others = set()
+    def __init__(self, host):
+        self.me = host.credentials()
+        self.others = set([self.me])
 
     def meet(self, other):
         self.others.add(other)
