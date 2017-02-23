@@ -1,4 +1,3 @@
 
-
-def dispatch(data):
-    pass
+def dispatch(clock, payload):
+    print(clock, payload)

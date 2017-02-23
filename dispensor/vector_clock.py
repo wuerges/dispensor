@@ -38,4 +38,6 @@ class VC:
 class vector_clock_factory:
     def empty_clock(cred):
         return VC({}, cred)
+    def make_clock(c, cred):
+        return VC(c, cred)
 
