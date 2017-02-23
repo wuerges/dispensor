@@ -14,7 +14,6 @@ class UDPHost:
         self.receiver = receiver
 
     def credentials(self):
-        print("here")
         return (self.host, self.port)
 
     def unicast(self, data):
@@ -43,7 +42,7 @@ class Host:
         self.clock = self.clock_factory.empty_clock(credentials) 
         self.record = set()
         self.group = group
-        self.group.add(self)
+        self.group.meet(self)
         self.concrete_host= \
                 concrete_host(credentials,self)
 
@@ -52,12 +51,22 @@ class Host:
     def credentials(self):
         return self.concrete_host.credentials()
 
-    def unicast(self, data):
+    def unicast_(self, data):
         self.concrete_host.unicast(data)
 
-    def multicast(self, data):
+    def multicast_(self, data):
         for h in self.group:
-            h.unicast(data)
+            h.unicast_(data)
+
+    def multicast(self, payload):
+        m = Message().pack(self.clock.to_message(), \
+                self.credentials(), payload)
+        self.multicast_(m.data)
+
+    def unicast(self, payload):
+        m = Message().pack(self.clock.to_message(), \
+                self.credentials(), payload)
+        self.unicast(m.data)
 
     def receive(self, data):
         m = Message().unpack(data)
@@ -66,7 +75,7 @@ class Host:
         if not m in self.record:
             if tuple(m.credentials) \
                 != tuple(self.credentials()):
-                self.multicast(m.data)
+                self.multicast_(m.data)
         self.record.add(m)
         self.clock.update(clock)
         dispatch(m.clock, m.payload)

@@ -1,14 +1,14 @@
 import dispensor.udp
 import dispensor.message
+import dispensor.group
 import time
 
 me = ('localhost', 23412)
 
-h = dispensor.udp.Host(me, set())
-
-m = dispensor.message.Message().pack({}, me, "hello world")
+g = dispensor.group.Group(me)
+h = dispensor.udp.Host(me, g)
 
 print("creds", h.credentials())
 
 time.sleep(1)
-h.multicast(m.data)
+h.multicast("hello world")

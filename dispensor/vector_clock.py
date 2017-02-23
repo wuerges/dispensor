@@ -9,6 +9,9 @@ class VC:
         self.v[self.name] += 1
         return self
 
+    def to_message(self):
+        return self.v
+
     def __repr__(self):
         return "V%s" % repr(self.v)
 

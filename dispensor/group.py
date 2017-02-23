@@ -5,3 +5,6 @@ class Group:
 
     def meet(self, other):
         self.others.add(other)
+
+    def __iter__(self):
+        return self.others.__iter__()
