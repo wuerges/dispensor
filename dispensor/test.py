@@ -1,11 +1,11 @@
-import dispensor.udp
+import dispensor.host
 import dispensor.group
 import time
 
 me = ('localhost', 23412)
 
 g = dispensor.group.Group(me)
-h = dispensor.udp.Host(g)
+h = dispensor.host.Host(g)
 
 print("creds", h.credentials())
 
