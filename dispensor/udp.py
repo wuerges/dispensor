@@ -62,13 +62,13 @@ class Host:
     def receive(self, data):
         m = Message().unpack(data)
         clock = self.clock_factory.make_clock(m.clock, m.credentials)
-        self.clock.update(clock)
 
         if not m in self.record:
             if tuple(m.credentials) \
                 != tuple(self.credentials()):
                 self.multicast(m.data)
         self.record.add(m)
+        self.clock.update(clock)
         dispatch(m.clock, m.payload)
 
 
