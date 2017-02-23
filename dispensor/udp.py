@@ -32,19 +32,19 @@ class UDPHost:
         self.thread.start()
 
 class Host:
-    def __init__(self, credentials, \
+    def __init__(self, \
             group, \
             clock_factory=vector_clock_factory,
             concrete_host=UDPHost):
         #self.host, self.port = credentials
         self.thread = None
         self.clock_factory = clock_factory
-        self.clock = self.clock_factory.empty_clock(credentials) 
+        self.clock = self.clock_factory.empty_clock(group.me) 
         self.record = set()
         self.group = group
         self.group.meet(self)
         self.concrete_host= \
-                concrete_host(credentials,self)
+                concrete_host(group.me,self)
 
         self.concrete_host.serve()
 
